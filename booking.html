@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book an Appointment — Dr. Farhana Ahmed</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🩺</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a href="index.html" class="brand"><span class="brand__mark">🩺</span><span>Dr. Farhana Ahmed<small>Consultant Cardiologist</small></span></a>
+    <nav class="main-nav" aria-label="Primary">
+      <ul>
+        <li><a href="index.html" data-nav-link>Home</a></li>
+        <li><a href="doctor.html" data-nav-link>Doctor Profile</a></li>
+        <li><a href="booking.html" data-nav-link class="is-active">Book Appointment</a></li>
+        <li><a href="appointments.html" data-nav-link>My Appointments</a></li>
+        <li><a href="patient.html" data-nav-link>Patient Dashboard</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions"><div id="notif-bell"></div></div>
+  </div>
+</header>
+
+<main>
+  <div class="page-head container">
+    <div class="breadcrumb"><a href="index.html">Home</a> / Book Appointment</div>
+    <h1>Book an appointment</h1>
+    <p>Takes about two minutes. Nothing is charged until step 7.</p>
+  </div>
+
+  <div class="container" style="padding-bottom:var(--sp-9);">
+    <div class="stepper" id="stepper"></div>
+
+    <div class="card" style="max-width:760px;margin:0 auto;">
+
+      <!-- STEP 1: PATIENT TYPE -->
+      <div class="booking-step is-active" data-step="1">
+        <h3>Are you a new or existing patient?</h3>
+        <div class="radio-card-group" style="margin-bottom:var(--sp-5);">
+          <label class="radio-card" data-type="new">
+            <input type="radio" name="patientType" value="new">
+            <div class="radio-card__title">🆕 New Patient</div>
+            <div class="radio-card__sub">First visit with Dr. Ahmed</div>
+          </label>
+          <label class="radio-card" data-type="existing">
+            <input type="radio" name="patientType" value="existing">
+            <div class="radio-card__title">🔁 Existing Patient</div>
+            <div class="radio-card__sub">Visited before</div>
+          </label>
+        </div>
+        <div id="existingLookup" hidden>
+          <div class="field">
+            <label for="lookupPhone">Phone number or Patient ID</label>
+            <input type="text" id="lookupPhone" placeholder="e.g. 01812345001 or PT-1001">
+            <div class="hint">Demo IDs: PT-1001 to PT-1005, or their phone numbers.</div>
+          </div>
+          <button class="btn btn--secondary" id="lookupBtn">Find my record</button>
+          <div id="lookupResult" style="margin-top:var(--sp-4);"></div>
+        </div>
+        <div class="flex justify-between" style="margin-top:var(--sp-6);">
+          <span></span>
+          <button class="btn btn--primary" id="step1Next" disabled>Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 2: CHAMBER -->
+      <div class="booking-step" data-step="2">
+        <h3>Choose a chamber</h3>
+        <div class="card-grid" id="chamberChoices" style="margin-bottom:var(--sp-5);"></div>
+        <div class="flex justify-between">
+          <button class="btn btn--ghost" data-back>Back</button>
+          <button class="btn btn--primary" id="step2Next" disabled>Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: DATE -->
+      <div class="booking-step" data-step="3">
+        <h3>Pick a date</h3>
+        <p class="small">Only visiting days for the selected chamber are open.</p>
+        <div class="calendar" id="calendar"></div>
+        <div class="flex justify-between" style="margin-top:var(--sp-5);">
+          <button class="btn btn--ghost" data-back>Back</button>
+          <button class="btn btn--primary" id="step3Next" disabled>Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: TIME / SERIAL -->
+      <div class="booking-step" data-step="4">
+        <h3>Select a time slot</h3>
+        <p class="small" id="slotSummary"></p>
+        <div class="slot-grid" id="slotGrid"></div>
+        <div class="flex justify-between" style="margin-top:var(--sp-5);">
+          <button class="btn btn--ghost" data-back>Back</button>
+          <button class="btn btn--primary" id="step4Next" disabled>Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 5: PATIENT INFO -->
+      <div class="booking-step" data-step="5">
+        <h3>Patient information</h3>
+        <form id="patientForm" novalidate>
+          <div class="form-grid form-grid--2">
+            <div class="field"><label for="fullName">Full name *</label><input type="text" id="fullName" required><div class="error-text">Please enter the patient's name.</div></div>
+            <div class="field"><label for="gender">Gender *</label>
+              <select id="gender" required><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select>
+              <div class="error-text">Please select a gender.</div>
+            </div>
+            <div class="field"><label for="age">Age *</label><input type="number" id="age" min="0" max="120" required><div class="error-text">Enter a valid age.</div></div>
+            <div class="field"><label for="phone">Phone number *</label><input type="tel" id="phone" required><div class="error-text">Enter a valid phone number.</div></div>
+            <div class="field"><label for="whatsapp">WhatsApp number</label><input type="tel" id="whatsapp"></div>
+            <div class="field" style="grid-column:1/-1;"><label for="address">Address</label><input type="text" id="address"></div>
+          </div>
+          <div class="field"><label for="problem">Main problem *</label><input type="text" id="problem" required placeholder="e.g. Chest pain, palpitations"><div class="error-text">Please describe the main problem.</div></div>
+          <div class="form-grid form-grid--2">
+            <div class="field"><label for="symptoms">Symptoms</label><textarea id="symptoms" rows="2"></textarea></div>
+            <div class="field"><label for="duration">Duration of problem</label><input type="text" id="duration" placeholder="e.g. 3 days"></div>
+          </div>
+          <div class="field"><label for="prevMedical">Previous medical information</label><textarea id="prevMedical" rows="2" placeholder="Known conditions, past surgeries, ongoing medicines"></textarea></div>
+          <div class="field"><label for="allergy">Allergy information</label><input type="text" id="allergy" placeholder="e.g. Penicillin, none known"></div>
+          <div class="field"><label for="notes">Additional notes</label><textarea id="notes" rows="2"></textarea></div>
+
+          <div class="field">
+            <label>Upload prescription / report / image (optional)</label>
+            <div class="file-drop" id="fileDropZone">📎 Tap to choose files (JPG, PNG or PDF) — demo preview only</div>
+            <input type="file" id="fileInput" multiple accept="image/*,.pdf" hidden>
+            <div class="file-preview-list" id="filePreviewList"></div>
+          </div>
+        </form>
+        <div class="flex justify-between" style="margin-top:var(--sp-5);">
+          <button class="btn btn--ghost" data-back>Back</button>
+          <button class="btn btn--primary" id="step5Next">Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 6: FEE -->
+      <div class="booking-step" data-step="6">
+        <h3>Fee breakdown</h3>
+        <div class="card" style="background:var(--color-primary-light);border:none;">
+          <div class="flex justify-between small" style="margin-bottom:var(--sp-2);"><span>Patient type</span><strong id="feeTypeLabel"></strong></div>
+          <div class="flex justify-between small" style="margin-bottom:var(--sp-2);"><span>Chamber</span><strong id="feeChamberLabel"></strong></div>
+          <div class="flex justify-between small" style="margin-bottom:var(--sp-4);"><span>Date &amp; time</span><strong id="feeDateLabel"></strong></div>
+          <hr style="border-color:rgba(20,30,27,0.1);">
+          <div class="flex justify-between" style="margin-top:var(--sp-4);"><span style="font-family:var(--font-display);font-size:var(--fs-md);">Total payable</span><span id="feeTotal" style="font-family:var(--font-display);font-size:var(--fs-xl);color:var(--color-primary-dark);"></span></div>
+        </div>
+        <div class="flex justify-between" style="margin-top:var(--sp-5);">
+          <button class="btn btn--ghost" data-back>Back</button>
+          <button class="btn btn--primary" id="step6Next">Proceed to payment</button>
+        </div>
+      </div>
+
+      <!-- STEP 7: PAYMENT -->
+      <div class="booking-step" data-step="7">
+        <h3>Payment</h3>
+        <p class="small">This is a demo payment flow. No real transaction takes place.</p>
+        <div class="radio-card-group" id="paymentMethods" style="margin-bottom:var(--sp-5);">
+          <label class="radio-card" data-method="bkash"><input type="radio" name="payMethod" value="bKash"><div class="radio-card__title">bKash</div><div class="radio-card__sub">Mobile wallet</div></label>
+          <label class="radio-card" data-method="nagad"><input type="radio" name="payMethod" value="Nagad"><div class="radio-card__title">Nagad</div><div class="radio-card__sub">Mobile wallet</div></label>
+          <label class="radio-card" data-method="card"><input type="radio" name="payMethod" value="Card"><div class="radio-card__title">Card</div><div class="radio-card__sub">Visa / Mastercard</div></label>
+          <label class="radio-card" data-method="other"><input type="radio" name="payMethod" value="Other"><div class="radio-card__title">Other</div><div class="radio-card__sub">Gateway placeholder</div></label>
+        </div>
+        <div id="payLoading" class="loading-state" hidden><div class="spinner"></div> Processing demo payment…</div>
+        <div class="flex justify-between">
+          <button class="btn btn--ghost" data-back>Back</button>
+          <button class="btn btn--primary" id="payNowBtn" disabled>Pay ৳0 (Demo)</button>
+        </div>
+      </div>
+
+      <!-- STEP 8: CONFIRMATION -->
+      <div class="booking-step" data-step="8">
+        <div class="text-center" style="margin-bottom:var(--sp-5);">
+          <div style="font-size:2.5rem;">✅</div>
+          <h2 style="margin-bottom:0;">Appointment confirmed</h2>
+          <p class="small">A copy has also been saved to your Patient Dashboard.</p>
+        </div>
+        <div class="appt-confirm-card card" id="confirmCard" style="background:var(--color-primary-light);border:none;"></div>
+        <div class="flex flex-wrap gap-2 justify-between" style="margin-top:var(--sp-5);">
+          <button class="btn btn--secondary" id="downloadBtn">⬇ Download</button>
+          <button class="btn btn--secondary" id="printBtn">🖨 Print</button>
+          <button class="btn btn--secondary" id="calendarBtn">📅 Add to Calendar</button>
+        </div>
+        <a href="patient.html" class="btn btn--primary btn--block" style="margin-top:var(--sp-4);">Go to Patient Dashboard</a>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<div class="sticky-book-bar mobile-only" id="stickyBar" hidden>
+  <div><div class="fee-amount" id="stickyFee">৳0</div><div class="xs muted">Total payable</div></div>
+  <button class="btn btn--primary btn--sm" id="stickyNextBtn">Continue</button>
+</div>
+
+<nav class="bottom-nav" aria-label="Mobile">
+  <a href="index.html" data-nav-link><span class="bn-icon">🏠</span>Home</a>
+  <a href="appointments.html" data-nav-link><span class="bn-icon">📋</span>Appointments</a>
+  <a href="booking.html" data-nav-link class="bottom-nav__cta is-active"><span class="bn-icon-wrap">➕</span></a>
+  <a href="patient.html" data-nav-link><span class="bn-icon">👤</span>Dashboard</a>
+  <a href="doctor.html" data-nav-link><span class="bn-icon">🩺</span>Doctor</a>
+</nav>
+
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/paymentService.js"></script>
+<script src="js/booking.js"></script>
+</body>
+</html>
