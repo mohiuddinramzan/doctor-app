@@ -23,7 +23,9 @@ document.querySelectorAll("[data-goto]").forEach(el => {
 });
 
 // ---------- Google Sheet-এ ডেটা পাঠানোর সেটিংস ----------
-const SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbzJM3KgeHIytowZfgJLhPgAzRBbVDYZ7c84MIUmyeVjWxH783RUlOlFAIvRdLRZFIQjJw/exec";
+// এখানে আপনার Google Apps Script Web App-এর URL বসান।
+// (নিচের গাইড অনুযায়ী Apps Script ডিপ্লয় করে URL কপি করুন)
+const SHEET_WEBHOOK_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
 
 function sendToSheet(appt) {
   if (!SHEET_WEBHOOK_URL || SHEET_WEBHOOK_URL.includes("PASTE_YOUR")) {
@@ -31,6 +33,7 @@ function sendToSheet(appt) {
     return;
   }
   const body = new URLSearchParams(appt);
+  // no-cors মোডে পাঠানো হচ্ছে বলে রেসপন্স পড়া যাবে না, কিন্তু ডেটা শিটে জমা হবে।
   fetch(SHEET_WEBHOOK_URL, {
     method: "POST",
     mode: "no-cors",
@@ -83,6 +86,7 @@ bookingForm.addEventListener("submit", function (e) {
     date: document.getElementById("f-date").value,
     time: document.getElementById("f-time").value,
     notes: document.getElementById("f-notes").value.trim(),
+    payment: document.querySelector('input[name="f-payment"]:checked').value,
     status: "নিশ্চিত",
   };
 
@@ -125,6 +129,7 @@ function renderAppointments() {
       <p>📍 ${appt.chamber}</p>
       <p>📅 ${formatDateBangla(appt.date)} · 🕒 ${appt.time}</p>
       <p>${appt.type}${appt.notes ? " — " + appt.notes : ""}</p>
+      <p>💰 পেমেন্ট: ${appt.payment || "-"}</p>
       ${appt.status !== "বাতিল"
         ? `<button class="btn btn--danger" data-cancel="${appt.id}">বাতিল করুন</button>`
         : ""}

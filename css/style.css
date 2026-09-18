@@ -68,12 +68,17 @@ body{
 /* ডাক্তার কার্ড */
 .doctor-card{text-align:center;}
 .doctor-card__avatar{
-  width:74px; height:74px;
+  width:88px; height:88px;
   border-radius:50%;
   background:var(--mint-100);
   display:flex; align-items:center; justify-content:center;
   font-size:34px;
   margin:0 auto 10px;
+  overflow:hidden;
+}
+.doctor-card__avatar img{
+  width:100%; height:100%;
+  object-fit:cover;
 }
 .doctor-card h2{margin:6px 0 2px; font-size:19px;}
 
@@ -138,6 +143,11 @@ input:focus, select:focus, textarea:focus{
 textarea{resize:vertical;}
 
 .choice-row{display:flex; gap:10px;}
+.pay-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
 .choice{
   flex:1;
   border:1px solid var(--line);

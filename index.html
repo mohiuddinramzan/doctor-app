@@ -26,7 +26,9 @@
   <section id="page-home" class="page">
 
     <div class="card doctor-card">
-      <div class="doctor-card__avatar">👩‍⚕️</div>
+      <div class="doctor-card__avatar">
+        <img src="assets/doctor-photo.jpg" alt="ডাঃ ফারহানা আহমেদ" onerror="this.style.display='none'; this.parentElement.textContent='👩‍⚕️';">
+      </div>
       <h2>ডাঃ ফারহানা আহমেদ</h2>
       <p class="muted">এমডি (কার্ডিওলজি), এফসিপিএস · অভিজ্ঞতা ১৪+ বছর</p>
       <div class="fee-row">
@@ -56,6 +58,7 @@
     <div class="card">
       <p>📞 ফোন: <a href="tel:+8801700000000">০১৭০০-০০০০০০</a></p>
       <p>💬 হোয়াটসঅ্যাপ: <a href="https://wa.me/8801700000000" target="_blank" rel="noopener">মেসেজ করুন</a></p>
+      <p>📘 ফেসবুক: <a href="https://www.facebook.com/mohiuddinramzanrumee" target="_blank" rel="noopener">পেজ দেখুন</a></p>
     </div>
 
   </section>
@@ -100,6 +103,15 @@
 
       <label>সমস্যার সংক্ষিপ্ত বিবরণ (ঐচ্ছিক)</label>
       <textarea id="f-notes" rows="3" placeholder="যেমন: বুকে ব্যথা, শ্বাসকষ্ট..."></textarea>
+
+      <label>পেমেন্ট মেথড</label>
+      <div class="pay-grid">
+        <label class="choice"><input type="radio" name="f-payment" value="bKash" checked><span>📱 bKash</span></label>
+        <label class="choice"><input type="radio" name="f-payment" value="Nagad"><span>📱 Nagad</span></label>
+        <label class="choice"><input type="radio" name="f-payment" value="Rocket"><span>📱 Rocket</span></label>
+        <label class="choice"><input type="radio" name="f-payment" value="কার্ড"><span>💳 কার্ড</span></label>
+        <label class="choice"><input type="radio" name="f-payment" value="চেম্বারে ক্যাশ"><span>💵 চেম্বারে ক্যাশ</span></label>
+      </div>
 
       <button type="submit" class="btn btn--primary btn--block">অ্যাপয়েন্টমেন্ট নিশ্চিত করুন</button>
     </form>
