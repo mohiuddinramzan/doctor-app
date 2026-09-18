@@ -23,8 +23,6 @@ document.querySelectorAll("[data-goto]").forEach(el => {
 });
 
 // ---------- Google Sheet-এ ডেটা পাঠানোর সেটিংস ----------
-// এখানে আপনার Google Apps Script Web App-এর URL বসান।
-// (নিচের গাইড অনুযায়ী Apps Script ডিপ্লয় করে URL কপি করুন)
 const SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxrjjsV6jGkeyoCPo7oSvk2A_uSJyUcSNmoBoawD2pZPXJzFSyrQJHbBbWKZVODZn9tAw/exec";
 
 function sendToSheet(appt) {
@@ -33,7 +31,6 @@ function sendToSheet(appt) {
     return;
   }
   const body = new URLSearchParams(appt);
-  // no-cors মোডে পাঠানো হচ্ছে বলে রেসপন্স পড়া যাবে না, কিন্তু ডেটা শিটে জমা হবে।
   fetch(SHEET_WEBHOOK_URL, {
     method: "POST",
     mode: "no-cors",
