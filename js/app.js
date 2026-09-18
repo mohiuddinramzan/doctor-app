@@ -22,6 +22,23 @@ document.querySelectorAll("[data-goto]").forEach(el => {
   el.addEventListener("click", () => goTo(el.dataset.goto));
 });
 
+// ---------- Google Sheet-এ ডেটা পাঠানোর সেটিংস ----------
+const SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbzJM3KgeHIytowZfgJLhPgAzRBbVDYZ7c84MIUmyeVjWxH783RUlOlFAIvRdLRZFIQjJw/exec";
+
+function sendToSheet(appt) {
+  if (!SHEET_WEBHOOK_URL || SHEET_WEBHOOK_URL.includes("PASTE_YOUR")) {
+    console.warn("Google Sheet URL সেট করা হয়নি — শুধু এই ফোনেই সেভ হচ্ছে।");
+    return;
+  }
+  const body = new URLSearchParams(appt);
+  fetch(SHEET_WEBHOOK_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: body,
+  }).catch(err => console.warn("শিটে পাঠাতে সমস্যা হয়েছে:", err));
+}
+
 // ---------- অ্যাপয়েন্টমেন্ট সংরক্ষণ (localStorage) ----------
 const STORAGE_KEY = "doctorAppAppointments";
 
@@ -72,6 +89,7 @@ bookingForm.addEventListener("submit", function (e) {
   const list = getAppointments();
   list.unshift(appt);
   saveAppointments(list);
+  sendToSheet(appt);
 
   bookingForm.reset();
 
@@ -120,6 +138,7 @@ function renderAppointments() {
         a.id === id ? { ...a, status: "বাতিল" } : a
       );
       saveAppointments(updated);
+      sendToSheet({ id: id, action: "cancel" });
       renderAppointments();
     });
   });
