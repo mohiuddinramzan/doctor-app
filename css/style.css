@@ -179,25 +179,34 @@ form .btn{margin-top:18px;}
 .payment-info__number-row{
   display:flex;
   align-items:center;
+  justify-content:space-between;
   gap:10px;
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:10px 10px 10px 14px;
 }
 .payment-info__number{
   font-size:17px;
   font-weight:700;
   color:var(--teal-700);
   letter-spacing:.5px;
+  user-select:all;
 }
 .btn-copy{
-  border:1px solid var(--teal-600);
-  background:var(--white);
-  color:var(--teal-700);
+  border:none;
+  background:var(--teal-700);
+  color:var(--white);
   border-radius:8px;
-  padding:5px 12px;
-  font-size:12.5px;
+  padding:8px 16px;
+  font-size:13px;
+  font-weight:600;
   font-family:inherit;
   cursor:pointer;
+  flex-shrink:0;
 }
-.btn-copy.copied{background:var(--teal-600); color:var(--white); border-color:var(--teal-600);}
+.btn-copy:active{background:var(--teal-900);}
+.btn-copy.copied{background:var(--gold);}
 .payment-info label{margin-top:12px;}
 
 /* অ্যাপয়েন্টমেন্ট তালিকা */
