@@ -1,200 +1,135 @@
-/**
- * app.js
- * ------------------------------------------------------------------
- * Shared across every page: navigation highlighting, toast system,
- * contact action builders (call/whatsapp/email/maps), the
- * notification bell, and the FAQ accordion. Loaded after
- * config.js + data.js on every page.
- * ------------------------------------------------------------------
- */
+// ---------- পেজ পরিবর্তন (ন্যাভিগেশন) ----------
+const pages = {
+  home: document.getElementById("page-home"),
+  booking: document.getElementById("page-booking"),
+  list: document.getElementById("page-list"),
+};
+const navBtns = document.querySelectorAll(".nav-btn");
 
-document.addEventListener("DOMContentLoaded", () => {
-  seedDemoData();
-  markActiveNavLink();
-  wireContactButtons();
-  renderNotificationBell();
-  wireFaqAccordion();
-  wireMobileNav();
+function goTo(pageName) {
+  Object.values(pages).forEach(p => p.classList.add("hidden"));
+  pages[pageName].classList.remove("hidden");
+
+  navBtns.forEach(btn => btn.classList.remove("active"));
+  const activeBtn = document.querySelector(`.nav-btn[data-goto="${pageName}"]`);
+  if (activeBtn) activeBtn.classList.add("active");
+
+  if (pageName === "list") renderAppointments();
+  window.scrollTo(0, 0);
+}
+
+document.querySelectorAll("[data-goto]").forEach(el => {
+  el.addEventListener("click", () => goTo(el.dataset.goto));
 });
 
-/* ---------------- Toast notifications ---------------- */
-function toast(message, type = "info", duration = 3200) {
-  let host = document.getElementById("toast-host");
-  if (!host) {
-    host = document.createElement("div");
-    host.id = "toast-host";
-    host.className = "toast-host";
-    host.setAttribute("aria-live", "polite");
-    document.body.appendChild(host);
+// ---------- অ্যাপয়েন্টমেন্ট সংরক্ষণ (localStorage) ----------
+const STORAGE_KEY = "doctorAppAppointments";
+
+function getAppointments() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+  } catch (e) {
+    return [];
   }
-  const el = document.createElement("div");
-  el.className = `toast toast--${type}`;
-  el.textContent = message;
-  host.appendChild(el);
-  requestAnimationFrame(() => el.classList.add("toast--show"));
-  setTimeout(() => {
-    el.classList.remove("toast--show");
-    setTimeout(() => el.remove(), 250);
-  }, duration);
 }
 
-/* ---------------- Confirmation dialog (native, wrapped for consistency) ---------------- */
-function confirmAction(message) {
-  return window.confirm(message);
+function saveAppointments(list) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
 }
 
-/* ---------------- Nav highlighting ---------------- */
-function markActiveNavLink() {
-  const path = location.pathname.split("/").pop() || "index.html";
-  document.querySelectorAll("[data-nav-link]").forEach(link => {
-    const href = link.getAttribute("href");
-    if (href === path) link.classList.add("is-active");
-  });
+function generateApptId() {
+  const num = Math.floor(1000 + Math.random() * 9000);
+  return "APT-" + num;
 }
 
-function wireMobileNav() {
-  document.querySelectorAll("[data-nav-link]").forEach(link => {
-    link.addEventListener("click", () => {
-      document.querySelectorAll("[data-nav-link]").forEach(l => l.classList.remove("is-active"));
-      link.classList.add("is-active");
-    });
-  });
+function formatDateBangla(dateStr) {
+  if (!dateStr) return "";
+  const d = new Date(dateStr + "T00:00:00");
+  const bnDigits = ["০","১","২","৩","৪","৫","৬","৭","৮","৯"];
+  const toBn = n => String(n).split("").map(ch => bnDigits[ch] || ch).join("");
+  const months = ["জানুয়ারি","ফেব্রুয়ারি","মার্চ","এপ্রিল","মে","জুন","জুলাই","আগস্ট","সেপ্টেম্বর","অক্টোবর","নভেম্বর","ডিসেম্বর"];
+  return `${toBn(d.getDate())} ${months[d.getMonth()]}, ${toBn(d.getFullYear())}`;
 }
 
-/* ---------------- Contact buttons (real actions, driven by config) ---------------- */
-function wireContactButtons() {
-  document.querySelectorAll("[data-action='call']").forEach(btn => {
-    btn.setAttribute("href", `tel:${DOCTOR_CONFIG.phone}`);
-  });
-  document.querySelectorAll("[data-action='whatsapp']").forEach(btn => {
-    const msg = encodeURIComponent("Hello, I would like to know more about appointments.");
-    btn.setAttribute("href", `https://wa.me/${DOCTOR_CONFIG.whatsapp}?text=${msg}`);
-    btn.setAttribute("target", "_blank");
-    btn.setAttribute("rel", "noopener");
-  });
-  document.querySelectorAll("[data-action='email']").forEach(btn => {
-    btn.setAttribute("href", `mailto:${DOCTOR_CONFIG.email}?subject=${encodeURIComponent("Appointment Inquiry")}`);
-  });
-  document.querySelectorAll("[data-action='facebook']").forEach(btn => {
-    btn.setAttribute("href", DOCTOR_CONFIG.facebook);
-    btn.setAttribute("target", "_blank");
-    btn.setAttribute("rel", "noopener");
-  });
-  document.querySelectorAll("[data-action='youtube']").forEach(btn => {
-    btn.setAttribute("href", DOCTOR_CONFIG.youtube);
-    btn.setAttribute("target", "_blank");
-    btn.setAttribute("rel", "noopener");
-  });
-  document.querySelectorAll("[data-action='website']").forEach(btn => {
-    btn.setAttribute("href", DOCTOR_CONFIG.website);
-    btn.setAttribute("target", "_blank");
-    btn.setAttribute("rel", "noopener");
-  });
-  document.querySelectorAll("[data-action='maps']").forEach(btn => {
-    const chamberId = btn.getAttribute("data-chamber") || DOCTOR_CONFIG.chambers[0].id;
-    const chamber = DOCTOR_CONFIG.chambers.find(c => c.id === chamberId) || DOCTOR_CONFIG.chambers[0];
-    btn.setAttribute("href", chamber.mapsUrl);
-    btn.setAttribute("target", "_blank");
-    btn.setAttribute("rel", "noopener");
-  });
-}
+// ---------- বুকিং ফর্ম সাবমিট ----------
+const bookingForm = document.getElementById("bookingForm");
 
-/* ---------------- Notification bell (shared component) ---------------- */
-function renderNotificationBell() {
-  const host = document.getElementById("notif-bell");
-  if (!host) return;
-  const notifications = DB.getNotifications();
-  const unread = notifications.filter(n => !n.read).length;
+bookingForm.addEventListener("submit", function (e) {
+  e.preventDefault();
 
-  host.innerHTML = `
-    <button class="icon-btn notif-toggle" id="notifToggle" aria-haspopup="true" aria-expanded="false" aria-label="Notifications">
-      🔔${unread > 0 ? `<span class="notif-dot">${unread}</span>` : ""}
-    </button>
-    <div class="notif-panel" id="notifPanel" hidden>
-      <div class="notif-panel__head">
-        <strong>Notifications</strong>
-        <button class="link-btn" id="notifMarkRead">Mark all read</button>
+  const appt = {
+    id: generateApptId(),
+    name: document.getElementById("f-name").value.trim(),
+    phone: document.getElementById("f-phone").value.trim(),
+    type: document.querySelector('input[name="f-type"]:checked').value,
+    chamber: document.getElementById("f-chamber").value,
+    date: document.getElementById("f-date").value,
+    time: document.getElementById("f-time").value,
+    notes: document.getElementById("f-notes").value.trim(),
+    status: "নিশ্চিত",
+  };
+
+  const list = getAppointments();
+  list.unshift(appt);
+  saveAppointments(list);
+
+  bookingForm.reset();
+
+  document.getElementById("modalApptId").textContent = appt.id;
+  document.getElementById("successModal").classList.remove("hidden");
+});
+
+document.getElementById("modalCloseBtn").addEventListener("click", () => {
+  document.getElementById("successModal").classList.add("hidden");
+  goTo("list");
+});
+
+// ---------- অ্যাপয়েন্টমেন্ট তালিকা দেখানো ----------
+function renderAppointments() {
+  const list = getAppointments();
+  const wrap = document.getElementById("apptList");
+  const emptyMsg = document.getElementById("apptEmpty");
+
+  if (list.length === 0) {
+    wrap.innerHTML = "";
+    emptyMsg.classList.remove("hidden");
+    return;
+  }
+  emptyMsg.classList.add("hidden");
+
+  wrap.innerHTML = list.map(appt => `
+    <div class="appt-item">
+      <div class="appt-item__top">
+        <span class="appt-item__id">${appt.id}</span>
+        <span class="badge ${appt.status === "বাতিল" ? "badge--cancelled" : ""}">${appt.status}</span>
       </div>
-      <div class="notif-list">
-        ${notifications.length ? notifications.map(n => `
-          <div class="notif-item ${n.read ? "" : "notif-item--unread"}">
-            <div class="notif-item__title">${escapeHtml(n.title)}</div>
-            <div class="notif-item__body">${escapeHtml(n.body)}</div>
-          </div>`).join("") : `<div class="empty-state empty-state--sm">No notifications yet.</div>`}
-      </div>
+      <h4>${appt.name}</h4>
+      <p>📍 ${appt.chamber}</p>
+      <p>📅 ${formatDateBangla(appt.date)} · 🕒 ${appt.time}</p>
+      <p>${appt.type}${appt.notes ? " — " + appt.notes : ""}</p>
+      ${appt.status !== "বাতিল"
+        ? `<button class="btn btn--danger" data-cancel="${appt.id}">বাতিল করুন</button>`
+        : ""}
     </div>
-  `;
+  `).join("");
 
-  const toggle = document.getElementById("notifToggle");
-  const panel = document.getElementById("notifPanel");
-  toggle.addEventListener("click", (e) => {
-    e.stopPropagation();
-    const isHidden = panel.hasAttribute("hidden");
-    if (isHidden) { panel.removeAttribute("hidden"); toggle.setAttribute("aria-expanded", "true"); }
-    else { panel.setAttribute("hidden", ""); toggle.setAttribute("aria-expanded", "false"); }
-  });
-  document.addEventListener("click", (e) => {
-    if (!panel.contains(e.target) && e.target !== toggle) panel.setAttribute("hidden", "");
-  });
-  document.getElementById("notifMarkRead").addEventListener("click", () => {
-    DB.markAllRead();
-    renderNotificationBell();
-  });
-}
-
-function pushNotification(title, body) {
-  DB.addNotification({ id: genId("NTF"), title, body, read: false, createdAt: new Date().toISOString(), isDemo: false });
-  renderNotificationBell();
-}
-
-/* ---------------- FAQ accordion ---------------- */
-function wireFaqAccordion() {
-  document.querySelectorAll(".faq-item").forEach(item => {
-    const question = item.querySelector(".faq-item__q");
-    if (!question) return;
-    question.addEventListener("click", () => {
-      const isOpen = item.classList.contains("is-open");
-      item.closest(".faq-list").querySelectorAll(".faq-item").forEach(i => i.classList.remove("is-open"));
-      if (!isOpen) item.classList.add("is-open");
+  wrap.querySelectorAll("[data-cancel]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.cancel;
+      const updated = getAppointments().map(a =>
+        a.id === id ? { ...a, status: "বাতিল" } : a
+      );
+      saveAppointments(updated);
+      renderAppointments();
     });
   });
 }
 
-/* ---------------- Small utilities ---------------- */
-function escapeHtml(str = "") {
-  return String(str).replace(/[&<>"']/g, (s) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[s]));
-}
+// ---------- শুরুতে আজকের তারিখ ন্যূনতম হিসেবে সেট করা ----------
+const dateInput = document.getElementById("f-date");
+const today = new Date().toISOString().split("T")[0];
+dateInput.min = today;
+dateInput.value = today;
 
-function formatCurrency(n) {
-  return `${APP_SETTINGS.currency}${Number(n).toLocaleString()}`;
-}
-
-function formatDateHuman(iso) {
-  const d = new Date(iso + "T00:00:00");
-  return d.toLocaleDateString("en-GB", { weekday: "short", day: "2-digit", month: "short", year: "numeric" });
-}
-
-function qs(name) {
-  return new URLSearchParams(location.search).get(name);
-}
-
-/* Shared slot generator: turns "5:00 PM".."9:00 PM" + interval into a slot list */
-function generateTimeSlots(startTime, endTime, slotMinutes) {
-  const toMinutes = (t) => {
-    const [time, meridian] = t.split(" ");
-    let [h, m] = time.split(":").map(Number);
-    if (meridian === "PM" && h !== 12) h += 12;
-    if (meridian === "AM" && h === 12) h = 0;
-    return h * 60 + m;
-  };
-  const toLabel = (mins) => {
-    let h = Math.floor(mins / 60), m = mins % 60;
-    const meridian = h >= 12 ? "PM" : "AM";
-    let h12 = h % 12; if (h12 === 0) h12 = 12;
-    return `${h12}:${String(m).padStart(2, "0")} ${meridian}`;
-  };
-  const start = toMinutes(startTime), end = toMinutes(endTime);
-  const slots = [];
-  for (let t = start; t < end; t += slotMinutes) slots.push(toLabel(t));
-  return slots;
-}
+// ---------- শুরুতে হোম পেজ দেখানো ----------
+goTo("home");

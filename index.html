@@ -1,233 +1,137 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dr. Farhana Ahmed — Consultant Cardiologist</title>
-<meta name="description" content="Book an appointment with Dr. Farhana Ahmed, Consultant Cardiologist. Serial-based booking, chamber info and online consultation fees.">
+<title>ডাঃ ফারহানা আহমেদ — অ্যাপয়েন্টমেন্ট</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🩺</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/components.css">
-<link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
 
-<header class="site-header">
-  <div class="site-header__inner">
-    <a href="index.html" class="brand">
-      <span class="brand__mark">🩺</span>
-      <span>Dr. Farhana Ahmed<small>Consultant Cardiologist</small></span>
-    </a>
-    <nav class="main-nav" aria-label="Primary">
-      <ul>
-        <li><a href="index.html" data-nav-link>Home</a></li>
-        <li><a href="doctor.html" data-nav-link>Doctor Profile</a></li>
-        <li><a href="booking.html" data-nav-link>Book Appointment</a></li>
-        <li><a href="appointments.html" data-nav-link>My Appointments</a></li>
-        <li><a href="patient.html" data-nav-link>Patient Dashboard</a></li>
-      </ul>
-    </nav>
-    <div class="header-actions">
-      <div id="notif-bell"></div>
-      <a href="booking.html" class="btn btn--primary btn--sm desktop-only">Book Appointment</a>
-    </div>
+<!-- টপ বার -->
+<header class="topbar">
+  <span class="topbar__logo">🩺</span>
+  <div class="topbar__title">
+    <strong>ডাঃ ফারহানা আহমেদ</strong>
+    <small>কার্ডিওলজিস্ট (কনসালট্যান্ট)</small>
   </div>
 </header>
 
-<main>
+<main class="container">
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container hero__grid">
-      <div>
-        <span class="hero__eyebrow">Cardiology &amp; Internal Medicine · Dhaka</span>
-        <h1>Careful heart care, without the rushed ten minutes.</h1>
-        <p>Dr. Farhana Ahmed sees a limited number of patients per session so every consultation gets a real conversation — clear explanations, a follow-up plan, and a doctor who remembers your history.</p>
-        <div class="hero__meta">
-          <span><strong>14+ years</strong> experience</span>
-          <span><strong>MD (Cardiology)</strong>, FCPS</span>
-          <span><strong>BM&amp;DC</strong> A-58421</span>
-        </div>
-        <div class="hero__cta">
-          <a href="booking.html" class="btn btn--primary">Book an Appointment</a>
-          <a href="doctor.html" class="btn btn--secondary">View Doctor Profile</a>
-        </div>
+  <!-- ============ হোম ============ -->
+  <section id="page-home" class="page">
+
+    <div class="card doctor-card">
+      <div class="doctor-card__avatar">👩‍⚕️</div>
+      <h2>ডাঃ ফারহানা আহমেদ</h2>
+      <p class="muted">এমডি (কার্ডিওলজি), এফসিপিএস · অভিজ্ঞতা ১৪+ বছর</p>
+      <div class="fee-row">
+        <div class="fee-box"><span class="fee-amount">৳১৫০০</span><span>নতুন রোগী</span></div>
+        <div class="fee-box"><span class="fee-amount">৳৮০০</span><span>ফলো-আপ</span></div>
       </div>
-      <div class="hero__portrait">
-        <img src="assets/images/doctor-photo.svg" alt="Portrait of Dr. Farhana Ahmed">
-        <div class="hero__fee-badge">
-          <div><div class="fee-amount">৳1,500</div><div class="fee-label">New patient</div></div>
-          <div><div class="fee-amount">৳800</div><div class="fee-label">Follow-up</div></div>
-        </div>
-      </div>
+      <button class="btn btn--primary btn--block" data-goto="booking">অ্যাপয়েন্টমেন্ট বুক করুন</button>
     </div>
+
+    <h3 class="section-title">চেম্বারের তথ্য</h3>
+
+    <div class="card chamber-card">
+      <h4>গ্রিন লাইফ হার্ট সেন্টার</h4>
+      <p class="muted">ধানমন্ডি, ঢাকা</p>
+      <p>📅 শনি, রবি, মঙ্গল, বৃহস্পতিবার</p>
+      <p>🕒 বিকেল ৫টা — রাত ৯টা</p>
+    </div>
+
+    <div class="card chamber-card">
+      <h4>সিটি মেডিকেল চেম্বার</h4>
+      <p class="muted">বনানী, ঢাকা</p>
+      <p>📅 সোম, বুধবার</p>
+      <p>🕒 সন্ধ্যা ৬টা — রাত ৯টা</p>
+    </div>
+
+    <h3 class="section-title">যোগাযোগ</h3>
+    <div class="card">
+      <p>📞 ফোন: <a href="tel:+8801700000000">০১৭০০-০০০০০০</a></p>
+      <p>💬 হোয়াটসঅ্যাপ: <a href="https://wa.me/8801700000000" target="_blank" rel="noopener">মেসেজ করুন</a></p>
+    </div>
+
   </section>
 
-  <!-- CONTACT STRIP -->
-  <section class="section--tight">
-    <div class="container flex flex-wrap gap-3 justify-between items-center">
-      <p class="mt-0 small" style="margin:0;">Reach the chamber directly:</p>
-      <div class="flex flex-wrap gap-2">
-        <a href="#" data-action="call" class="btn btn--secondary btn--sm">📞 Call</a>
-        <a href="#" data-action="whatsapp" class="btn btn--secondary btn--sm">💬 WhatsApp</a>
-        <a href="#" data-action="email" class="btn btn--secondary btn--sm">✉️ Email</a>
-        <a href="#" data-action="facebook" class="btn btn--secondary btn--sm">Facebook</a>
-        <a href="#" data-action="youtube" class="btn btn--secondary btn--sm">YouTube</a>
-        <a href="#" data-action="website" class="btn btn--secondary btn--sm">Website</a>
+  <!-- ============ বুকিং ============ -->
+  <section id="page-booking" class="page hidden">
+    <h3 class="section-title">অ্যাপয়েন্টমেন্ট বুক করুন</h3>
+
+    <form class="card" id="bookingForm">
+
+      <label>রোগীর নাম</label>
+      <input type="text" id="f-name" placeholder="আপনার পূর্ণ নাম লিখুন" required>
+
+      <label>মোবাইল নম্বর</label>
+      <input type="tel" id="f-phone" placeholder="০১XXXXXXXXX" pattern="^01[0-9]{9}$" required>
+
+      <label>রোগীর ধরন</label>
+      <div class="choice-row">
+        <label class="choice"><input type="radio" name="f-type" value="নতুন রোগী" checked><span>নতুন রোগী (৳১৫০০)</span></label>
+        <label class="choice"><input type="radio" name="f-type" value="ফলো-আপ"><span>ফলো-আপ (৳৮০০)</span></label>
       </div>
-    </div>
+
+      <label>চেম্বার বাছাই করুন</label>
+      <select id="f-chamber" required>
+        <option value="গ্রিন লাইফ হার্ট সেন্টার, ধানমন্ডি">গ্রিন লাইফ হার্ট সেন্টার, ধানমন্ডি</option>
+        <option value="সিটি মেডিকেল চেম্বার, বনানী">সিটি মেডিকেল চেম্বার, বনানী</option>
+      </select>
+
+      <label>তারিখ</label>
+      <input type="date" id="f-date" required>
+
+      <label>সময় স্লট</label>
+      <select id="f-time" required>
+        <option value="বিকেল ৫:০০">বিকেল ৫:০০</option>
+        <option value="বিকেল ৫:৩০">বিকেল ৫:৩০</option>
+        <option value="সন্ধ্যা ৬:০০">সন্ধ্যা ৬:০০</option>
+        <option value="সন্ধ্যা ৬:৩০">সন্ধ্যা ৬:৩০</option>
+        <option value="সন্ধ্যা ৭:০০">সন্ধ্যা ৭:০০</option>
+        <option value="রাত ৭:৩০">রাত ৭:৩০</option>
+        <option value="রাত ৮:০০">রাত ৮:০০</option>
+      </select>
+
+      <label>সমস্যার সংক্ষিপ্ত বিবরণ (ঐচ্ছিক)</label>
+      <textarea id="f-notes" rows="3" placeholder="যেমন: বুকে ব্যথা, শ্বাসকষ্ট..."></textarea>
+
+      <button type="submit" class="btn btn--primary btn--block">অ্যাপয়েন্টমেন্ট নিশ্চিত করুন</button>
+    </form>
   </section>
 
-  <!-- ABOUT -->
-  <section class="section section--muted" id="about">
-    <div class="container">
-      <div class="section-head">
-        <h2>About the doctor</h2>
-        <p>A short introduction before your first visit.</p>
-      </div>
-      <div class="card" style="max-width:760px;margin:0 auto;">
-        <p id="bioText" style="margin:0;"></p>
-      </div>
-    </div>
+  <!-- ============ আমার অ্যাপয়েন্টমেন্ট ============ -->
+  <section id="page-list" class="page hidden">
+    <h3 class="section-title">আমার অ্যাপয়েন্টমেন্ট</h3>
+    <div id="apptList"></div>
+    <p id="apptEmpty" class="muted center hidden">এখনো কোনো অ্যাপয়েন্টমেন্ট বুক করা হয়নি।</p>
   </section>
 
-  <!-- SPECIALIZATIONS -->
-  <section class="section" id="specializations">
-    <div class="container">
-      <div class="section-head">
-        <h2>Areas of focus</h2>
-        <p>What Dr. Ahmed treats most often.</p>
-      </div>
-      <div class="card-grid" id="specGrid"></div>
+  <!-- ============ সফল বার্তা মোডাল ============ -->
+  <div id="successModal" class="modal hidden">
+    <div class="modal__box">
+      <div class="modal__icon">✅</div>
+      <h3>অ্যাপয়েন্টমেন্ট সফল হয়েছে!</h3>
+      <p>আপনার সিরিয়াল নম্বর</p>
+      <div class="modal__id" id="modalApptId"></div>
+      <button class="btn btn--primary btn--block" id="modalCloseBtn">ঠিক আছে</button>
     </div>
-  </section>
-
-  <!-- CHAMBER INFO -->
-  <section class="section section--muted" id="chambers">
-    <div class="container">
-      <div class="section-head">
-        <h2>Chamber &amp; visiting hours</h2>
-        <p>Two sitting locations — pick whichever is closer when you book.</p>
-      </div>
-      <div class="card-grid" id="chamberGrid"></div>
-    </div>
-  </section>
-
-  <!-- APPOINTMENT PROCESS -->
-  <section class="section" id="process">
-    <div class="container">
-      <div class="section-head">
-        <h2>How booking works</h2>
-        <p>Four steps, about two minutes.</p>
-      </div>
-      <div class="card-grid">
-        <div class="info-card card"><div class="info-card__icon">1</div><div><h3>Tell us who's visiting</h3><p>New patient or an existing one — we'll pull up your history either way.</p></div></div>
-        <div class="info-card card"><div class="info-card__icon">2</div><div><h3>Pick a chamber, date &amp; slot</h3><p>Only open slots are shown, so you always get a real serial number.</p></div></div>
-        <div class="info-card card"><div class="info-card__icon">3</div><div><h3>Share your details</h3><p>Symptoms, history, and any reports — so the visit itself moves faster.</p></div></div>
-        <div class="info-card card"><div class="info-card__icon">4</div><div><h3>Confirm &amp; pay</h3><p>bKash, Nagad or card. You'll get a QR appointment card instantly.</p></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section class="section section--muted" id="contact">
-    <div class="container">
-      <div class="section-head">
-        <h2>Contact</h2>
-        <p>Prefer to talk first? Reach the chamber directly.</p>
-      </div>
-      <div class="card-grid">
-        <div class="info-card card"><div class="info-card__icon">📞</div><div><h3>Phone</h3><p id="phoneText"></p><a href="#" data-action="call" class="link-btn">Call now</a></div></div>
-        <div class="info-card card"><div class="info-card__icon">💬</div><div><h3>WhatsApp</h3><p>Message for quick queries and reports.</p><a href="#" data-action="whatsapp" class="link-btn">Open WhatsApp</a></div></div>
-        <div class="info-card card"><div class="info-card__icon">✉️</div><div><h3>Email</h3><p id="emailText"></p><a href="#" data-action="email" class="link-btn">Send email</a></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="section" id="faq">
-    <div class="container">
-      <div class="section-head">
-        <h2>Frequently asked questions</h2>
-      </div>
-      <div class="faq-list">
-        <div class="faq-item"><div class="faq-item__q">How do I book an appointment?</div><div class="faq-item__a"><p>Tap "Book an Appointment", choose new or existing patient, pick a chamber, date and time slot, fill in your details and confirm payment. You'll get an appointment ID and QR code instantly.</p></div></div>
-        <div class="faq-item"><div class="faq-item__q">What is the consultation fee?</div><div class="faq-item__a"><p>New patient visits are ৳1,500. The fee is shown again before you pay, broken down clearly.</p></div></div>
-        <div class="faq-item"><div class="faq-item__q">What is the follow-up fee?</div><div class="faq-item__a"><p>৳800, valid for 15 days after your last visit with a prescription. After that it's treated as a new visit.</p></div></div>
-        <div class="faq-item"><div class="faq-item__q">How can I cancel an appointment?</div><div class="faq-item__a"><p>Open "My Appointments", find your booking and tap Cancel. It's reflected immediately in the doctor's queue.</p></div></div>
-        <div class="faq-item"><div class="faq-item__q">Where is the chamber?</div><div class="faq-item__a"><p>Green Life Heart Center, Dhanmondi (Sat/Sun/Tue/Thu) and City Medical Chamber, Banani (Mon/Wed). Maps links are on the chamber cards above.</p></div></div>
-        <div class="faq-item"><div class="faq-item__q">How early should I arrive?</div><div class="faq-item__a"><p>15 minutes before your slot time is enough — serials move roughly on schedule but can shift by a few patients.</p></div></div>
-        <div class="faq-item"><div class="faq-item__q">Can I book for a family member?</div><div class="faq-item__a"><p>Yes. Add them under Family Members in your Patient Dashboard, then select them when booking.</p></div></div>
-      </div>
-    </div>
-  </section>
+  </div>
 
 </main>
 
-<footer class="site-footer">
-  <div class="container footer-grid">
-    <div>
-      <h4>Dr. Farhana Ahmed</h4>
-      <p id="footerBio" style="max-width:420px;"></p>
-      <div class="footer-social">
-        <a href="#" data-action="facebook" aria-label="Facebook">Facebook</a>
-        <a href="#" data-action="youtube" aria-label="YouTube">YouTube</a>
-        <a href="#" data-action="website" aria-label="Website">Website</a>
-      </div>
-    </div>
-    <div>
-      <h4>Quick links</h4>
-      <p><a href="booking.html">Book Appointment</a></p>
-      <p><a href="appointments.html">My Appointments</a></p>
-      <p><a href="patient.html">Patient Dashboard</a></p>
-      <p><a href="doctor.html#admin">Doctor Dashboard</a></p>
-    </div>
-    <div>
-      <h4>Chamber</h4>
-      <p id="footerChamber"></p>
-      <p><a href="#" data-action="maps">Open in Google Maps</a></p>
-    </div>
-  </div>
-  <div class="container footer-bottom">
-    <span>© 2026 Dr. Farhana Ahmed's Chamber. Demo application — not for real medical use.</span>
-    <span>Built as a static frontend prototype.</span>
-  </div>
-</footer>
-
-<nav class="bottom-nav" aria-label="Mobile">
-  <a href="index.html" data-nav-link><span class="bn-icon">🏠</span>Home</a>
-  <a href="appointments.html" data-nav-link><span class="bn-icon">📋</span>Appointments</a>
-  <a href="booking.html" data-nav-link class="bottom-nav__cta"><span class="bn-icon-wrap">➕</span></a>
-  <a href="patient.html" data-nav-link><span class="bn-icon">👤</span>Dashboard</a>
-  <a href="doctor.html" data-nav-link><span class="bn-icon">🩺</span>Doctor</a>
+<!-- নিচের নেভিগেশন বার -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" data-goto="home"><span>🏠</span>হোম</button>
+  <button class="nav-btn" data-goto="booking"><span>➕</span>বুকিং</button>
+  <button class="nav-btn" data-goto="list"><span>📋</span>অ্যাপয়েন্টমেন্ট</button>
 </nav>
 
-<script src="js/config.js"></script>
-<script src="js/data.js"></script>
 <script src="js/app.js"></script>
-<script>
-  document.getElementById("bioText").textContent = DOCTOR_CONFIG.bio;
-  document.getElementById("footerBio").textContent = DOCTOR_CONFIG.bio.slice(0, 130) + "…";
-  document.getElementById("phoneText").textContent = DOCTOR_CONFIG.phoneDisplay;
-  document.getElementById("emailText").textContent = DOCTOR_CONFIG.email;
-  document.getElementById("footerChamber").textContent = DOCTOR_CONFIG.chambers[0].name + ", " + DOCTOR_CONFIG.chambers[0].address;
-
-  document.getElementById("specGrid").innerHTML = DOCTOR_CONFIG.specializations.map(s => `
-    <div class="info-card card">
-      <div class="info-card__icon">✚</div>
-      <div><h3>${s.title}</h3><p>${s.desc}</p></div>
-    </div>`).join("");
-
-  document.getElementById("chamberGrid").innerHTML = DOCTOR_CONFIG.chambers.map(c => `
-    <div class="card">
-      <h3>${c.name}</h3>
-      <p class="small">${c.address}</p>
-      <p class="small"><strong>Visiting days:</strong> ${c.visitingDays.join(", ")}</p>
-      <p class="small"><strong>Hours:</strong> ${c.visitingHours}</p>
-      <a href="#" data-action="maps" data-chamber="${c.id}" class="btn btn--secondary btn--sm">📍 Open in Maps</a>
-    </div>`).join("");
-</script>
 </body>
 </html>
