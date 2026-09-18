@@ -25,7 +25,7 @@ document.querySelectorAll("[data-goto]").forEach(el => {
 // ---------- Google Sheet-এ ডেটা পাঠানোর সেটিংস ----------
 // এখানে আপনার Google Apps Script Web App-এর URL বসান।
 // (নিচের গাইড অনুযায়ী Apps Script ডিপ্লয় করে URL কপি করুন)
-const SHEET_WEBHOOK_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+const SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxrjjsV6jGkeyoCPo7oSvk2A_uSJyUcSNmoBoawD2pZPXJzFSyrQJHbBbWKZVODZn9tAw/exec";
 
 function sendToSheet(appt) {
   if (!SHEET_WEBHOOK_URL || SHEET_WEBHOOK_URL.includes("PASTE_YOUR")) {
