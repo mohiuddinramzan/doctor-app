@@ -23,7 +23,7 @@ document.querySelectorAll("[data-goto]").forEach(el => {
 });
 
 // ---------- Google Sheet-এ ডেটা পাঠানোর সেটিংস ----------
-const SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxrjjsV6jGkeyoCPo7oSvk2A_uSJyUcSNmoBoawD2pZPXJzFSyrQJHbBbWKZVODZn9tAw/exec";
+const SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyKtMP3VL0yBONjCkENLu_MF9d7e2vBOxIV3LuE4bv5Gy_lVgtiNpxmbwhg-iy66PHh0Q/exec";
 
 function sendToSheet(appt) {
   if (!SHEET_WEBHOOK_URL || SHEET_WEBHOOK_URL.includes("PASTE_YOUR")) {
