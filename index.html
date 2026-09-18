@@ -113,6 +113,19 @@
         <label class="choice"><input type="radio" name="f-payment" value="চেম্বারে ক্যাশ"><span>💵 চেম্বারে ক্যাশ</span></label>
       </div>
 
+      <div class="payment-info" id="paymentInfo">
+        <p class="payment-info__text">
+          <b id="payMethodLabel">bKash</b>-এ <b>Send Money</b> করুন এই নম্বরে —
+        </p>
+        <div class="payment-info__number-row">
+          <span class="payment-info__number" id="payNumber">017XXXXXXXX</span>
+          <button type="button" class="btn-copy" id="copyPayNumber">কপি</button>
+        </div>
+
+        <label>Transaction ID</label>
+        <input type="text" id="f-trxid" placeholder="যেমন: 8N7A6B5C4D">
+      </div>
+
       <button type="submit" class="btn btn--primary btn--block">অ্যাপয়েন্টমেন্ট নিশ্চিত করুন</button>
     </form>
   </section>

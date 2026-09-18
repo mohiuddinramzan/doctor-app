@@ -68,11 +68,64 @@ function formatDateBangla(dateStr) {
   return `${toBn(d.getDate())} ${months[d.getMonth()]}, ${toBn(d.getFullYear())}`;
 }
 
+// ---------- পেমেন্ট নম্বর সেটিংস ----------
+// এখানে আপনার আসল bKash/Nagad/Rocket নম্বর বসান
+const PAYMENT_NUMBER = "017XXXXXXXX";
+// Send Money / নম্বর বক্স শুধু এই মেথডগুলোর জন্য দেখানো হবে (Transaction ID-ও এদের জন্য আবশ্যক)
+const MOBILE_BANKING_METHODS = ["bKash", "Nagad", "Rocket"];
+
+const paymentInfo = document.getElementById("paymentInfo");
+const payMethodLabel = document.getElementById("payMethodLabel");
+const payNumberEl = document.getElementById("payNumber");
+const trxIdInput = document.getElementById("f-trxid");
+const copyBtn = document.getElementById("copyPayNumber");
+
+payNumberEl.textContent = PAYMENT_NUMBER;
+
+function updatePaymentInfo() {
+  const checked = document.querySelector('input[name="f-payment"]:checked');
+  if (!checked) return;
+  const isMobileBanking = MOBILE_BANKING_METHODS.includes(checked.value);
+
+  paymentInfo.classList.toggle("hidden", !isMobileBanking);
+  payMethodLabel.textContent = checked.value;
+  trxIdInput.required = isMobileBanking;
+  if (!isMobileBanking) trxIdInput.value = "";
+}
+
+document.querySelectorAll('input[name="f-payment"]').forEach(radio => {
+  radio.addEventListener("change", updatePaymentInfo);
+});
+updatePaymentInfo();
+
+copyBtn.addEventListener("click", async () => {
+  try {
+    await navigator.clipboard.writeText(PAYMENT_NUMBER);
+  } catch (e) {
+    // ক্লিপবোর্ড অ্যাক্সেস না থাকলে চুপচাপ বাদ দেওয়া হলো
+  }
+  copyBtn.textContent = "কপি হয়েছে ✓";
+  copyBtn.classList.add("copied");
+  setTimeout(() => {
+    copyBtn.textContent = "কপি";
+    copyBtn.classList.remove("copied");
+  }, 1500);
+});
+
 // ---------- বুকিং ফর্ম সাবমিট ----------
 const bookingForm = document.getElementById("bookingForm");
 
 bookingForm.addEventListener("submit", function (e) {
   e.preventDefault();
+
+  const paymentMethod = document.querySelector('input[name="f-payment"]:checked').value;
+  const trxId = trxIdInput.value.trim();
+
+  if (MOBILE_BANKING_METHODS.includes(paymentMethod) && !trxId) {
+    trxIdInput.focus();
+    alert("Send Money করার পর Transaction ID লিখুন।");
+    return;
+  }
 
   const appt = {
     id: generateApptId(),
@@ -83,7 +136,8 @@ bookingForm.addEventListener("submit", function (e) {
     date: document.getElementById("f-date").value,
     time: document.getElementById("f-time").value,
     notes: document.getElementById("f-notes").value.trim(),
-    payment: document.querySelector('input[name="f-payment"]:checked').value,
+    payment: paymentMethod,
+    trxId: trxId,
     status: "নিশ্চিত",
   };
 
@@ -93,6 +147,7 @@ bookingForm.addEventListener("submit", function (e) {
   sendToSheet(appt);
 
   bookingForm.reset();
+  updatePaymentInfo();
 
   document.getElementById("modalApptId").textContent = appt.id;
   document.getElementById("successModal").classList.remove("hidden");
@@ -126,7 +181,7 @@ function renderAppointments() {
       <p>📍 ${appt.chamber}</p>
       <p>📅 ${formatDateBangla(appt.date)} · 🕒 ${appt.time}</p>
       <p>${appt.type}${appt.notes ? " — " + appt.notes : ""}</p>
-      <p>💰 পেমেন্ট: ${appt.payment || "-"}</p>
+      <p>💰 পেমেন্ট: ${appt.payment || "-"}${appt.trxId ? " (TrxID: " + appt.trxId + ")" : ""}</p>
       ${appt.status !== "বাতিল"
         ? `<button class="btn btn--danger" data-cancel="${appt.id}">বাতিল করুন</button>`
         : ""}

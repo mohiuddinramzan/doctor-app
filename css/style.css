@@ -163,6 +163,43 @@ textarea{resize:vertical;}
 
 form .btn{margin-top:18px;}
 
+/* পেমেন্ট নম্বর / Transaction ID বক্স */
+.payment-info{
+  margin-top:14px;
+  background:var(--mint-100);
+  border:1px dashed var(--teal-600);
+  border-radius:10px;
+  padding:12px 14px;
+}
+.payment-info__text{
+  margin:0 0 8px;
+  font-size:13.5px;
+  color:var(--ink);
+}
+.payment-info__number-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.payment-info__number{
+  font-size:17px;
+  font-weight:700;
+  color:var(--teal-700);
+  letter-spacing:.5px;
+}
+.btn-copy{
+  border:1px solid var(--teal-600);
+  background:var(--white);
+  color:var(--teal-700);
+  border-radius:8px;
+  padding:5px 12px;
+  font-size:12.5px;
+  font-family:inherit;
+  cursor:pointer;
+}
+.btn-copy.copied{background:var(--teal-600); color:var(--white); border-color:var(--teal-600);}
+.payment-info label{margin-top:12px;}
+
 /* অ্যাপয়েন্টমেন্ট তালিকা */
 .appt-item{
   background:var(--white);
