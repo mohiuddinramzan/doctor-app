@@ -1,0 +1,6 @@
+{
+  "appId": "com.mohiuddinramzan.doctorapp",
+  "appName": "ডাক্তার অ্যাপ",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}
